@@ -9,7 +9,8 @@
   },
   "scripts": {
     "react-dev": "webpack -d --watch",
-    "server-dev": "nodemon server/index.js"
+    "server-dev": "nodemon server/index.js",
+    "insert-data": "node server/db/sampledata.js"
   },
   "author": "David Engelstad",
   "license": "ISC",

@@ -5,8 +5,8 @@ mongoose.Promise = global.Promise;
 
 const messageSchema = new mongoose.Schema({
     id: Number,
-    channel_id: Number,
-    user_id: Number,
+    channel: String,
+    username: String,
     text: String,
     reaction_id: Number,
     parent: String,
