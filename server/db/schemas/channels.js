@@ -4,10 +4,8 @@ const db = require('../index.js');
 mongoose.Promise = global.Promise;
 
 const channelSchema = new mongoose.Schema({
-    id: Number,
     name: String,
-    team_id: Number,
-    user_id: Number
+    team_id: String,
 }) 
 
 const Channel = mongoose.model('Channel', channelSchema);

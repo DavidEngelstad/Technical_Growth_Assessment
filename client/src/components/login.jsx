@@ -22,6 +22,7 @@ class Login extends React.Component {
         axios.post('api/user/signup', user)
           .then(response => {
               console.log('Signup response...', response.data);
+              this.loginHandler();
           })
           .catch(err => {
               console.log('Signup errored out with...', err);
@@ -43,6 +44,7 @@ class Login extends React.Component {
               console.log('Server errored out with ...', err);
           })
     }
+
 
     render() {
         return(

@@ -2,12 +2,9 @@ const mongoose = require('mongoose');
 const db = require('../index.js');
 const passport = require('passport');
 const passportLocalMongoose = require('passport-local-mongoose');
-
-
 mongoose.Promise = global.Promise;
 
 const userSchema = new mongoose.Schema({
-    id: Number,
     username: String,
     password: String
 });

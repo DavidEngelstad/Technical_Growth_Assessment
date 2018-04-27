@@ -10,9 +10,18 @@ const mongoose = require('mongoose');
 const FileStore = require('session-file-store')(session);
 const uuid = require('uuid');
 const passport = require('passport');
+var http = require('http').Server(app);
+const io = require('socket.io')(http);
+
+io.on('connection', function(socket) {
+    console.log('A user connected');
+    socket.on('disconnect', function() {
+        console.log('User disconnected');
+    })
+})
 
 
-const LocalStrategy = require('passport-local').Strategy;
+// const LocalStrategy = require('passport-local').Strategy;
 
 
 app.use(bodyParser.json());
@@ -40,6 +49,6 @@ const User = require('./db/schemas/user.js');
 
 
 
-app.listen(3000, function() {
+http.listen(3000, function() {
     console.log('Listening on port 3000');
 });

@@ -4,7 +4,7 @@ const db = require('../index.js');
 mongoose.Promise = global.Promise;
 
 const messageSchema = new mongoose.Schema({
-    id: Number,
+    team_id: String,
     channel: String,
     username: String,
     text: String,
