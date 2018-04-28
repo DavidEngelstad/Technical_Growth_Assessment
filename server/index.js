@@ -18,7 +18,11 @@ io.on('connection', function(socket) {
     socket.on('disconnect', function() {
         console.log('User disconnected');
     })
-})
+    socket.on('SEND_MESSAGE', function(data) {
+        console.log(data);
+        io.emit('RECEIVE_MESSAGE', data);
+    })
+});
 
 
 // const LocalStrategy = require('passport-local').Strategy;

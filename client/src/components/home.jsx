@@ -1,9 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import io from 'socket.io';
+import io from 'socket.io-client';
 import Sidebar from './sidebar.jsx';
-import openSocket from 'socket.io-client';
-const socket = openSocket('http://localhost:3000');
+
 
 
 class Home extends React.Component {
@@ -19,11 +18,34 @@ class Home extends React.Component {
             message: '',
             channelName: ''
         }
+
         this.fetchMessages = this.fetchMessages.bind(this);
         this.fetchChannels = this.fetchChannels.bind(this);
         this.changeChannel = this.changeChannel.bind(this);
     }
 
+    componentDidMount() {
+        this.socket = io('localhost:3000')
+        this.sendMessage = (e) => {
+            console.log('In send message...')
+            this.socket.emit('SEND_MESSAGE', {
+                team_id: this.state.team_id,
+                channel: this.state.activeChannel,
+                username: this.state.user,
+                text: this.state.message
+            })
+            this.setState({message: ''});
+        }
+        this.socket.on('RECEIVE_MESSAGE', function(data) {
+            console.log('Client receive message...', data);
+            addMessage(data);
+        });
+        const addMessage = (data) => {
+            console.log(data);
+            this.setState({ messages: [...this.state.messages, data]});
+            console.log(this.state.messages);
+        }
+    }
     componentWillMount() {
         this.fetchChannels();
     }
@@ -78,7 +100,6 @@ class Home extends React.Component {
     createChannel() {
         axios.post(`api/createChannel/${this.state.team_id}/${this.state.channelName}`)
           .then(response => {
-              console.log(response);
               this.fetchChannels();
           })
           .catch(err => {
@@ -102,6 +123,7 @@ class Home extends React.Component {
             activeChannel: channel
         });
         this.fetchMessages();
+        console.log("IN CHANGE CHANNEL...");
     }
 
     render() {
@@ -134,6 +156,8 @@ class Home extends React.Component {
                 </div>
                 <div className="channels box">
                   <div>On Channel: #{this.state.activeChannel}</div>
+                  <input name="channelName" placeholder="create channel" onChange={this.onChangeHandler.bind(this)} />
+                  <button onClick={this.createChannel.bind(this)}>Create Channel</button>
                     {renderChannels()}
                 </div>
                 <div className="messages box">
@@ -144,9 +168,9 @@ class Home extends React.Component {
                 <div className="input box">
                   <input name="message" placeholder={`add message to #${this.state.activeChannel}`} onChange={this.onChangeHandler.bind(this)} />
                   <br />
-                  <button onClick={this.addMessage.bind(this)} >Add Message</button>
-                  {/* <input name="channelName" placeholder="create channel" onChange={this.onChangeHandler.bind(this)} />
-                  <button onClick={this.createChannel.bind(this)}>Create Channel</button> */}
+                  {/* <button onClick={this.addMessage.bind(this)} >Add Message</button> */}
+                  <button onClick={this.sendMessage} onClick={this.addMessage.bind(this)}>Send Message</button>
+                  
                 </div>
             </div>
         ) 
