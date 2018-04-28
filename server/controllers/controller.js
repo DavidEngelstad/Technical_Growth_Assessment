@@ -3,6 +3,7 @@ const User = require('../db/schemas/user.js');
 const Team = require('../db/schemas/teams.js');
 const Channels = require('../db/schemas/channels.js');
 const Messages = require('../db/schemas/messages.js');
+const Members = require('../db/schemas/members.js');
 const express = require('express');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;

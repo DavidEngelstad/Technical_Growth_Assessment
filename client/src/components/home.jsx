@@ -4,7 +4,6 @@ import io from 'socket.io-client';
 import Sidebar from './sidebar.jsx';
 
 
-
 class Home extends React.Component {
     constructor(props) {
         super(props);
@@ -13,10 +12,12 @@ class Home extends React.Component {
             team: this.props.team,
             team_id: this.props.team_id,
             channels: [],
+            team_members: [],
             activeChannel: '',
             messages: [],
             message: '',
-            channelName: ''
+            channelName: '',
+            invite:''
         }
 
         this.fetchMessages = this.fetchMessages.bind(this);
@@ -80,6 +81,17 @@ class Home extends React.Component {
           })
     }
 
+    fetchTeamMembers() {
+        console.log('In fetch members')
+        axios.get(`api/members/${this.state.team_id}`)
+          .then(response => {
+              console.log(response);
+          })
+          .catch(err => {
+              console.log(err)
+          })
+    }
+
     onChangeHandler(e) {
         this.setState({ [e.target.name]: e.target.value });
     }
@@ -126,6 +138,18 @@ class Home extends React.Component {
         console.log("IN CHANGE CHANNEL...");
     }
 
+    renderMessages() {
+        if (this.state.messages.length > 0) {
+            return this.state.messages.map(message => (
+                <li key={message._id}>
+                <strong>{message.username}</strong>  
+                <br />
+                {message.text}
+                </li>
+            ))
+        }
+    }
+
     render() {
         const renderMessages = () => {
             if (this.state.messages.length > 0) {
@@ -159,6 +183,8 @@ class Home extends React.Component {
                   <input name="channelName" placeholder="create channel" onChange={this.onChangeHandler.bind(this)} />
                   <button onClick={this.createChannel.bind(this)}>Create Channel</button>
                     {renderChannels()}
+                    <input name="invite" placeholder="Invide a user" onChange={this.onChangeHandler.bind(this)} />
+                    <button onClick={this.sendInvite} onClick={this.addMessage.bind(this)}>Invite</button>
                 </div>
                 <div className="messages box">
                   <ul className="message-list">
