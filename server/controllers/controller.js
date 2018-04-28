@@ -35,13 +35,6 @@ const signUp = (req, res) => {
 
 const login =  (req, res) => {
     res.send(req.session);
-    
-    
-
-    // User.find({ username: req.params.username })
-    //       .then( data => {
-    //           res.status(200).send(data);
-    //       })
 }
 
 const logout = (req, res) => {
@@ -72,7 +65,6 @@ const findTeam = (req, res) => {
 }
 
 const getTeamChannels = (req, res) => {
-    // console.log('In controller...', req.params);
     Channels.find({team_id: req.params.team_id})
       .then(data => {
           res.send(data);
@@ -83,7 +75,6 @@ const getTeamChannels = (req, res) => {
 }
 
 const createTeam = (req, res) => {
-    // console.log('In CreateTeam...', req.body);
     newTeam = new Team({id: 2, team_name: req.body.team_name})
     newTeam.save((err) => {
       if (err) console.log(err);

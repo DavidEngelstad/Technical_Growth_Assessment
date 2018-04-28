@@ -56,7 +56,6 @@ class Home extends React.Component {
     fetchChannels() {
         axios.get(`api/channel/${this.state.team_id}`) 
         .then(response => {
-            console.log(response);
             this.setState({
                 channels: response.data,
                 activeChannel: response.data[0].name
@@ -82,14 +81,13 @@ class Home extends React.Component {
     }
 
     fetchTeamMembers() {
-        console.log('In fetch members')
         axios.get(`api/members/${this.state.team_id}`)
           .then(data => {
-              console.log('Fetch members...', data);
               this.setState({
                   team_members: data
               })
               console.log('After Fetch...', this.state.team_members);
+
           })
           .catch(err => {
               console.log(err)
@@ -139,7 +137,6 @@ class Home extends React.Component {
             activeChannel: channel
         });
         this.fetchMessages();
-        console.log("IN CHANGE CHANNEL...");
     }
 
     renderMessages() {
@@ -190,7 +187,7 @@ class Home extends React.Component {
         const renderTeamMembers = () => {
             if (this.state.team_members.length > 0) {
                 return this.state.team_members.map(member => (
-                    <div className="channels box">
+                    <div className="channels box" key={member._id}>
                         <a onClick={() => this.changeChannel(channel.name)}>{member.username}</a>
                     </div>
                 ))

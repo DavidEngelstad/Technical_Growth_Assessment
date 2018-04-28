@@ -112,3 +112,14 @@ npm install
 npm run react-dev
 npm run server-dev
 run mongod
+
+On Login or Signup, Team Page loads
+Enter a team
+create team
+home page loads
+
+Current Bugs:
+
+Have to double click on channels to correctly render
+Broke the team users render
+
