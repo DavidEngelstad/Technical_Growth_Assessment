@@ -47,12 +47,6 @@ app.use(express.static(path.resolve(__dirname, '../client/dist')));
 const User = require('./db/schemas/user.js');
 
 
-
-
-
-
-
-
 http.listen(3000, function() {
     console.log('Listening on port 3000');
 });

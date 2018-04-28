@@ -48,7 +48,7 @@ class App extends React.Component {
     render() {
         return(
         <div>
-          {this.state.loggedIn ? (this.state.team_id ? <Home  team_id={this.state.team_id} team={this.state.team} messages={this.state.messages} user={this.state.user} logout={this.logoutHandler.bind(this)}/> : <SelectRoom selected={this.selectTeam.bind(this)}/>) : <Login login={this.loginHandler.bind(this)} />}
+          {this.state.loggedIn ? (this.state.team_id ? <Home  team_id={this.state.team_id} team={this.state.team} messages={this.state.messages} user={this.state.user} logout={this.logoutHandler.bind(this)}/> : <SelectRoom user={this.state.user} selected={this.selectTeam.bind(this)}/>) : <Login login={this.loginHandler.bind(this)} />}
         </div>
         );
     }

@@ -105,3 +105,10 @@ It is up to you to ask GOOD, clarifying questions.
 Due at 12PM
 
 We will send an email Sunday afternoon
+
+
+TO START:
+npm install
+npm run react-dev
+npm run server-dev
+run mongod

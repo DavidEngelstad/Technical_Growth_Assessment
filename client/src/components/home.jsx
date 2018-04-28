@@ -23,6 +23,7 @@ class Home extends React.Component {
         this.fetchMessages = this.fetchMessages.bind(this);
         this.fetchChannels = this.fetchChannels.bind(this);
         this.changeChannel = this.changeChannel.bind(this);
+        this.fetchTeamMembers = this.fetchTeamMembers.bind(this);
     }
 
     componentDidMount() {
@@ -49,6 +50,7 @@ class Home extends React.Component {
     }
     componentWillMount() {
         this.fetchChannels();
+        this.fetchTeamMembers();
     }
 
     fetchChannels() {
@@ -68,10 +70,8 @@ class Home extends React.Component {
     }
 
     fetchMessages() {
-        console.log('In fetch messages... ', this.state.activeChannel);
         axios.get(`api/messages/${this.state.activeChannel}`)
           .then(response => {
-              console.log('In fetch messages...', response);
               this.setState({
                   messages: response.data
               })
@@ -84,8 +84,12 @@ class Home extends React.Component {
     fetchTeamMembers() {
         console.log('In fetch members')
         axios.get(`api/members/${this.state.team_id}`)
-          .then(response => {
-              console.log(response);
+          .then(data => {
+              console.log('Fetch members...', data);
+              this.setState({
+                  team_members: data
+              })
+              console.log('After Fetch...', this.state.team_members);
           })
           .catch(err => {
               console.log(err)
@@ -150,6 +154,17 @@ class Home extends React.Component {
         }
     }
 
+    sendInvite() {
+        axios.post(`/api/members/${this.state.invite}/${this.state.team_id}`)
+                .then(response => {
+                    console.log('Membership added...', response);
+                    this.fetchTeamMembers();
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+    }
+
     render() {
         const renderMessages = () => {
             if (this.state.messages.length > 0) {
@@ -172,6 +187,16 @@ class Home extends React.Component {
             }
         }
 
+        const renderTeamMembers = () => {
+            if (this.state.team_members.length > 0) {
+                return this.state.team_members.map(member => (
+                    <div className="channels box">
+                        <a onClick={() => this.changeChannel(channel.name)}>{member.username}</a>
+                    </div>
+                ))
+            }
+        }
+
         return (
             <div className="app-layout">
                 <div className="teams box">
@@ -184,7 +209,8 @@ class Home extends React.Component {
                   <button onClick={this.createChannel.bind(this)}>Create Channel</button>
                     {renderChannels()}
                     <input name="invite" placeholder="Invide a user" onChange={this.onChangeHandler.bind(this)} />
-                    <button onClick={this.sendInvite} onClick={this.addMessage.bind(this)}>Invite</button>
+                    <button onClick={this.sendInvite.bind(this)}>Invite</button>
+                    {renderTeamMembers()}
                 </div>
                 <div className="messages box">
                   <ul className="message-list">

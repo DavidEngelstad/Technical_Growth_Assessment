@@ -7,7 +7,8 @@ class SelectRoom extends React.Component {
         super(props);
         this.state = {
             team: '',
-            createTeam: false
+            createTeam: false,
+            user: this.props.user
         }
     }
 
@@ -26,7 +27,14 @@ class SelectRoom extends React.Component {
                       createTeam: true
                   })
               }
-              this.props.selected([response.data.team_name, response.data._id]);  //CHANGE THIS TO A UNIQUE IDENIFIER!
+              this.props.selected([response.data.team_name, response.data._id]);
+              axios.post(`/api/members/${this.state.user}/${response.data._id}`)
+                .then(response => {
+                    console.log('Membership assigned...', response);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
           })
           .catch(err => {
               console.log('Server errored out to select team with...', err);

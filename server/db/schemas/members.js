@@ -4,9 +4,9 @@ const db = require('../index.js');
 mongoose.Promise = global.Promise;
 
 const memberSchema = new mongoose.Schema({
-    userId: String,
-    channelId: String,
-    teamId: String
+    username: String,
+    channel_id: String,
+    team_id: String
 });
 
 const Member = mongoose.model('Member', memberSchema);

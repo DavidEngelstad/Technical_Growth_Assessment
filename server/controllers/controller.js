@@ -125,6 +125,36 @@ const createChannel = (req, res) => {
 }
 
 
+const addTeamMembers = (req, res) => {
+    const {user, teamid} = req.params;
+    newMember = new Members({
+        username: user,
+        team_id: teamid
+    })
+    Members.find({username: user, team_id: teamid})
+      .then(data => {
+          if (!data.length) {
+            newMember.save((err) => {
+                if (err) console.log(err);
+                res.send('Membership assigned')
+            })
+          }
+      })
+}
+
+const getTeamMembers = (req, res) => {
+    const {teamid} = req.params;
+    console.log('In GET TEAM MEMBERS...', req.params);
+    Members.find({team_id: teamid})
+      .then(data => {
+          console.log('In team members data....', data);
+          res.send(data);
+      })
+      .catch(err => {
+          res.send(err);
+      })
+}
+
 module.exports.getMessages = getMessages;
 module.exports.login = login;
 module.exports.signup = signUp;
@@ -134,3 +164,5 @@ module.exports.getTeamChannels = getTeamChannels;
 module.exports.createTeam = createTeam;
 module.exports.postMessage = postMessage;
 module.exports.createChannel = createChannel;
+module.exports.addTeamMembers = addTeamMembers;
+module.exports.getTeamMembers = getTeamMembers;

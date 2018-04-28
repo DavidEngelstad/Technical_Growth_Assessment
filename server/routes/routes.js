@@ -36,21 +36,12 @@ router.post('/messages/:team/:channel/:user/:message', (req, res) => controller.
 //Allow user to create a channel for a team
 router.post('/createChannel/:team/:name', (req, res) => controller.createChannel(req, res));
 
-//Get users that belong to a team
-router.get('/members/:team', (req, res) => controller.getTeamMembers(req, res));
-//Allow user to join a channel
+//Add users that belong to a team
+router.post('/members/:user/:teamid', (req, res) => controller.addTeamMembers(req, res));
 
-//Allow user to star a post
+//Get the members of a team
+router.get('/members/:teamid', (req, res) => controller.getTeamMembers(req, res));
 
-//Allow a user to star a channel
-
-//Allow a user to add a reaction to a message
-
-//Allow a user to add an attachment to a message
-
-//Allow a user to join a team
-
-//For topbar, allow user to see all of the other users subscribed to a channel
 
 
 
